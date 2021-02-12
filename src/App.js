@@ -1,5 +1,6 @@
-import logo from './logo.svg';
-import './App.css';
+import fetchMock from "fetch-mock";
+import logo from "./logo.svg";
+import "./App.css";
 
 function App() {
   return (
@@ -9,6 +10,8 @@ function App() {
         <p>
           Edit <code>src/App.js</code> and save to reload.
         </p>
+        <button onClick={goodFetch}>goodFetch</button>
+        <button onClick={badFetch}>badFetch</button>
         <a
           className="App-link"
           href="https://reactjs.org"
@@ -21,5 +24,38 @@ function App() {
     </div>
   );
 }
+
+function goodFetch() {
+  fetchMock.get("/good", { body: "This is good response", status: 201 });
+  fetch("/good")
+    .then((res) => {
+      console.log(res);
+      return res.text();
+    })
+    .then((data) => {
+      console.log("Success:", data);
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+    });
+  fetchMock.reset();
+}
+
+function badFetch() {
+  fetch("/bad")
+    .then((res) => {
+      console.log(res);
+      return res.text();
+    })
+    .then((data) => {
+      console.log("Success:", data);
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+    });
+}
+
+//fetchMock.get("/good", { body: "This is good response", status: 201 });
+//  .get("/bad", 500);
 
 export default App;

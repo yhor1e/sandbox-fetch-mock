@@ -1,3 +1,34 @@
+# sandbox-fetch-mock
+
+## refs
+
+- https://github.com/wheresrhys/fetch-mock
+
+## source code
+
+**Replace global.fetch to fetch-mock**
+
+https://github.com/wheresrhys/fetch-mock/blob/4b54e6db42a3e87700ef37a27a7a4d7df29cb3d7/src/lib/set-up-and-tear-down.js#L49-L53
+
+```
+	if (!this.isSandbox) {
+		// Do this here rather than in the constructor to ensure it's scoped to the test
+		this.realFetch = this.realFetch || this.global.fetch;
+		this.global.fetch = this.fetchHandler;
+	}
+```
+
+**Reset fetch-mock**
+
+https://github.com/wheresrhys/fetch-mock/blob/4b54e6db42a3e87700ef37a27a7a4d7df29cb3d7/src/lib/set-up-and-tear-down.js#L128-L131
+
+```
+	if (this.realFetch && !this.routes.length) {
+		this.global.fetch = this.realFetch;
+		this.realFetch = undefined;
+	}
+```
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
